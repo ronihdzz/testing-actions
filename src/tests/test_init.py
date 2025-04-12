@@ -12,4 +12,7 @@ class TestBooksAPI(TestCase):
         if connection:
             execute_query(connection, "SELECT version();")
             connection.dispose()
+
+    def test_equal_strings(self):
+        self.assertEqual("Hello", "Hello!")
     

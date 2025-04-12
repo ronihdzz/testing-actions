@@ -1,0 +1,20 @@
+services:
+  db-postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test_db
+    ports:
+      - 9999:5432
+  
+  testing:
+    build:
+      context: .
+      dockerfile: docker_images/testing/Dockerfile.testing
+    env_file:
+      - ./.env.testing.docker
+    environment:
+      POSTGRESQL_URL: postgresql://test:test@db-postgres:5432/test_db
+    depends_on:
+      - db-postgres

@@ -1,0 +1,23 @@
+# Dockerfile.testing
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+COPY docker_images/testing/ci.env.sh .
+COPY src/ ./src/
+
+RUN chmod +x ci.env.sh
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV PYTHONPATH=/app
+
+CMD ["bash", "-c", "./ci.env.sh && python -m pytest src/tests -v"]

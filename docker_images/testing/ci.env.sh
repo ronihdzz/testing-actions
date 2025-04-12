@@ -34,3 +34,4 @@ else
 fi
 
 echo "🎬 Variables ready. Continuing with tests..."
+S

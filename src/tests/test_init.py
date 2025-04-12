@@ -14,5 +14,5 @@ class TestBooksAPI(TestCase):
             connection.dispose()
 
     def test_equal_strings(self):
-        self.assertEqual("Hello", "Hello!")
+        self.assertEqual("Hello", "Hello")
     

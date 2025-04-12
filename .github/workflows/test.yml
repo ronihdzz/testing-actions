@@ -50,31 +50,15 @@ jobs:
 
       - name: 🏗️ Build test image
         run: |
-          echo "📦 Iniciando construcción de imagen Docker de testing..."
           docker build --progress=plain -t my-test-image -f docker_images/testing/Dockerfile.testing .
-          echo "✅ Imagen Docker construida exitosamente: my-test-image"
-
-      - name: 🔍 Mostrar variables de entorno pasadas al contenedor
-        run: |
-          echo "🔐 GITHUB_DATABASE_POSTGRESQL: postgres://test:test@localhost:5432/test_db"
-          echo "🧪 GITHUB_DATABASE_MONGODB: mongodb://localhost:27017"
-          echo "⚡ GITHUB_DATABASE_REDIS: redis://localhost:6379"
 
       - name: 🚀 Run tests in container
         run: |
-          echo "🚦 Ejecutando contenedor con tests..."
           docker run \
             --network=host \
             -e CI=true \
             -e GITHUB_DATABASE_POSTGRESQL=postgres://test:test@localhost:5432/test_db \
             -e GITHUB_DATABASE_MONGODB=mongodb://localhost:27017 \
             -e GITHUB_DATABASE_REDIS=redis://localhost:6379 \
-            my-test-image
-
-      - name: ✅ Confirmación de éxito
-        if: success()
-        run: echo "🎉 Todos los tests pasaron correctamente."
-
-      - name: ❌ Si algo falló...
-        if: failure()
-        run: echo "🔥 Algo salió mal. Revisa los logs del contenedor."
+            my-test-image \
+            python -m pytest src/tests -v

@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.engine import Engine
 from pymongo import MongoClient
 from settings import settings
+from redis import Redis
 
 def create_connection(connection_url: str) -> Engine | None:
     """
@@ -39,9 +40,16 @@ def create_mongo_connection(connection_url: str) -> MongoClient | None:
         print(f"Error al conectar a MongoDB: {e}")
         return None
 
-
+def create_redis_connection(connection_url: str) -> Redis | None:
+    try:
+        redis = Redis(connection_url)
+        print("Conexión a Redis exitosa")
+        return redis
+    except Exception as e:
+        print(f"Error al conectar a Redis: {e}")
+        return None
+    
 if __name__ == "__main__":
-
     connection_url = settings.POSTGRESQL_URL
     engine = create_connection(connection_url)
     if engine:
@@ -53,3 +61,9 @@ if __name__ == "__main__":
     if client:
         print("Conexión a MongoDB exitosa")
         client.close()
+
+    connection_url = settings.REDIS_URL
+    redis = create_redis_connection(connection_url)
+    if redis:
+        print("Conexión a Redis exitosa")
+        redis.close()

@@ -18,6 +18,7 @@ if [ "$CI" = "true" ]; then
   # -----------------------------------------------------------------
   export POSTGRESQL_URL="${GITHUB_DATABASE_POSTGRESQL:-$POSTGRESQL_URL}"
   export MONGO_URL="${GITHUB_DATABASE_MONGODB:-$MONGO_URL}"
+  export REDIS_URL="${GITHUB_DATABASE_REDIS:-$REDIS_URL}"
 
 
 
@@ -30,6 +31,7 @@ if [ "$CI" = "true" ]; then
 
   echo "🔐 POSTGRESQL_URL=${POSTGRESQL_URL}"
   echo "🔐 MONGO_URL=${MONGO_URL}"
+  echo "🔐 REDIS_URL=${REDIS_URL}"
 else
   echo "🧪 Local mode: using local environment variables"
 fi

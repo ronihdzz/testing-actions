@@ -1,5 +1,5 @@
 from unittest import TestCase
-from main import create_connection, execute_query, create_mongo_connection
+from main import create_connection, execute_query, create_mongo_connection, create_redis_connection
 from settings import settings
 
 class TestBooksAPI(TestCase):
@@ -18,5 +18,10 @@ class TestBooksAPI(TestCase):
     
     def test_mongodb_connection(self):
         connection = create_mongo_connection(settings.MONGO_URL)
+        if connection:
+            connection.close()
+
+    def test_redis_connection(self):
+        connection = create_redis_connection(settings.REDIS_URL)
         if connection:
             connection.close()

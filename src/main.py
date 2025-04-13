@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.engine import Engine
+from pymongo import MongoClient
 from settings import settings
 
 def create_connection(connection_url: str) -> Engine | None:
@@ -29,6 +30,16 @@ def execute_query(engine: Engine, query: str) -> None:
     except SQLAlchemyError as e:
         print(f"Error al ejecutar la consulta: {e}")
 
+def create_mongo_connection(connection_url: str) -> MongoClient | None:
+    try:
+        client = MongoClient(connection_url)
+        print("Conexión a MongoDB exitosa")
+        return client
+    except Exception as e:
+        print(f"Error al conectar a MongoDB: {e}")
+        return None
+
+
 if __name__ == "__main__":
 
     connection_url = settings.POSTGRESQL_URL
@@ -36,3 +47,9 @@ if __name__ == "__main__":
     if engine:
         execute_query(engine, "SELECT version();")
         engine.dispose()
+
+    connection_url = settings.MONGO_URL
+    client = create_mongo_connection(connection_url)
+    if client:
+        print("Conexión a MongoDB exitosa")
+        client.close()

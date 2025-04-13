@@ -1,5 +1,5 @@
 from unittest import TestCase
-from main import create_connection, execute_query
+from main import create_connection, execute_query, create_mongo_connection
 from settings import settings
 
 class TestBooksAPI(TestCase):
@@ -16,3 +16,7 @@ class TestBooksAPI(TestCase):
     def test_equal_strings(self):
         self.assertEqual("Hello", "Hello")
     
+    def test_mongodb_connection(self):
+        connection = create_mongo_connection(settings.MONGO_URL)
+        if connection:
+            connection.close()

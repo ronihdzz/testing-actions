@@ -8,6 +8,12 @@ services:
     ports:
       - 9999:5432
   
+  db-mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+
   testing:
     build:
       context: .
@@ -16,5 +22,7 @@ services:
       - ./.env.testing.docker
     environment:
       POSTGRESQL_URL: postgresql://test:test@db-postgres:5432/test_db
+      MONGO_URL: mongodb://localhost:27017/test_db  
     depends_on:
       - db-postgres
+      - db-mongodb

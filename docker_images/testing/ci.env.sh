@@ -17,7 +17,7 @@ if [ "$CI" = "true" ]; then
   # Add environment variable associations with GitHub Actions values here
   # -----------------------------------------------------------------
   export POSTGRESQL_URL="${GITHUB_DATABASE_POSTGRESQL:-$POSTGRESQL_URL}"
-
+  export MONGO_URL="${GITHUB_DATABASE_MONGODB:-$MONGO_URL}"
 
 
 
@@ -29,6 +29,7 @@ if [ "$CI" = "true" ]; then
 
 
   echo "🔐 POSTGRESQL_URL=${POSTGRESQL_URL}"
+  echo "🔐 MONGO_URL=${MONGO_URL}"
 else
   echo "🧪 Local mode: using local environment variables"
 fi

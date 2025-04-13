@@ -6,4 +6,4 @@ source /app/ci.env.sh
 
 
 # Execute the command received as argument
-exec "$@"
+exec poetry run "$@"
